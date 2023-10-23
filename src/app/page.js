@@ -1,10 +1,37 @@
-import React from "react";
+"use client";
+
+import React, { useCallback, useState } from "react";
 import ImageTag from "@/components/Imagetag";
 import Logo from "../../public/images/logo.svg";
 import Link from "next/link";
+import axios from "axios";
 
 export default function Home() {
-  // const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
+  const onSubmit = (e) => {
+    console.log("kldp");
+    axios
+      .post(
+        `https://account.hubstaff.com/access_tokens?grant_type=${email}&refresh_token=${password}`
+      )
+      .then((response) => {
+        console.log(response, "test");
+        alert("success");
+      })
+      .catch((error) => {
+        alert("service error");
+        console.log(error, "errr");
+      });
+  };
 
   return (
     <>
@@ -18,7 +45,7 @@ export default function Home() {
               Sign in to Hubstaff
             </h3>
           </div>
-          <form action="https://api.hubstaff.com/v2">
+          <div>
             <div className="mt-6">
               <label className=" text-16 font-medium text-silver block mb-2 leading-6">
                 Email
@@ -26,9 +53,9 @@ export default function Home() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                id="clint_id"
                 name="emailname"
-                value={"email@gmail.com"}
+                value={email}
+                onChange={handleEmail}
                 className="w-full bg-white rounded outline-0 py-3 px-5 border border-solid border-grayborder text-14 leading-[18px] text-black font-medium focus:border-blue focus:shadow-finput"
               />
             </div>
@@ -38,10 +65,10 @@ export default function Home() {
               </label>
               <input
                 type="password"
-                id="clint_secret"
                 name="password"
                 placeholder="Enter your Password"
-                value={"password"}
+                value={password}
+                onChange={handlePassword}
                 className="w-full bg-white rounded outline-0 py-3 px-5 border border-solid border-grayborder text-14 leading-[18px] text-black font-medium focus:border-blue focus:shadow-finput"
               />
             </div>
@@ -55,13 +82,13 @@ export default function Home() {
             </div>
             <div>
               <button
-                type="submit"
+                onClick={onSubmit}
                 className="text-16 leading-6 text-center font-medium capitalize  bg-blue w-full py-2 px-6 rounded transition-all duration-300 ease-in-out delay-0 hover:bg-bluehov"
               >
                 Login
               </button>
             </div>
-          </form>
+          </div>
           <div className="mt-8 text-center">
             <p className="text-black text-14 leading-18 font-medium">
               Dont have an account?
