@@ -36,6 +36,7 @@ module.exports = {
       grayborder: "#e4e4e5",
       blue: "#2e69ce",
       bluehov: "#2656a7",
+      gray: "#777777",
       finput:
         "rgb(175, 205, 255) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 1px 1px 2px 0px",
     },
