@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import ImageTag from "@/components/Imagetag";
 import Logo from "../../public/images/logo.svg";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import axios from "axios";
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState("");
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -17,18 +18,38 @@ export default function Home() {
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
+
+  const saveTokenInLocalStorage = (tokenDetails) => {
+    localStorage.setItem("accesstoken", JSON.stringify(tokenDetails));
+  };
   const onSubmit = (e) => {
-    console.log("kldp");
+    const emails = "refresh_token";
+    const passwords =
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImRlZmF1bHQifQ.eyJqdGkiOiJVRktZanI1aSIsImlzcyI6Imh0dHBzOi8vYWNjb3VudC5odWJzdGFmZi5jb20iLCJleHAiOjE3MDU5NDQwOTIsImlhdCI6MTY5ODE2ODA5Miwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBodWJzdGFmZjpyZWFkIGh1YnN0YWZmOndyaXRlIn0.Ri5Td9f66a7U01ZcZumak14piU15bdv-2J83OS-6t-3ceeMUh6r2qfcFaXbuQWM6nrH-qOv35EHWDqDGC0R2xjoMyKbcFUl2A8vFH7H-jtRHGEuWHuZ0VS_1gx3YPlUw232AnK_LtRBJX34kE6w0PEOX80uFqJHFaVIwaYeK_x35jLUn-7wo3ILcRcYqNDdkjADYRUteZ1Y9SRa4Ob8wETt8nvnIQhFcv6ZVREmyjPkQXRBWrpSJGbFLiAXPC_0ZBj7NKdKBaVwntabpy481cPJ_IZby742IY6UjbcN3IhwJQtHPeHch6PmwdnICi_0cWvkSpiewJzcXHLWrz4E3nQ";
+    if (!email) {
+      setErrors("Email is Required");
+      return;
+    } else if (!password) {
+      setErrors("Password is Required");
+      return;
+    } else if (email !== "admin@gmail.com") {
+      console.log(email, "tk login");
+      setErrors("Please Enter Valid Email");
+      return;
+    } else if (password !== "admin") {
+      setErrors("Please Enter Valid Password");
+      return;
+    }
+    console.log("return data");
     axios
       .post(
-        `https://account.hubstaff.com/access_tokens?grant_type=${email}&refresh_token=${password}`
+        `https://account.hubstaff.com/access_tokens?grant_type=${emails}&refresh_token=${passwords}`
       )
       .then((response) => {
         console.log(response, "test");
-        alert("success");
+        saveTokenInLocalStorage(response.data);
       })
       .catch((error) => {
-        alert("service error");
         console.log(error, "errr");
       });
   };
@@ -72,6 +93,9 @@ export default function Home() {
                 className="w-full bg-white rounded outline-0 py-3 px-5 border border-solid border-grayborder text-14 leading-[18px] text-black font-medium focus:border-blue focus:shadow-finput"
               />
             </div>
+            <p className="text-error text-center mt-4 text-14 leading-18">
+              {errors}
+            </p>
             <div>
               <Link
                 href="#"

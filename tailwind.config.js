@@ -39,6 +39,7 @@ module.exports = {
       gray: "#777777",
       finput:
         "rgb(175, 205, 255) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 1px 1px 2px 0px",
+      error: "rgb(245, 26, 26)",
     },
   },
   plugins: [],
