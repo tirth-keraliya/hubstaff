@@ -1,15 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import ImageTag from "@/components/Imagetag";
 import Logo from "../../public/images/logo.svg";
 import Link from "next/link";
 import axios from "axios";
+import { ROUTE } from "./constants/routeConst";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
+  const router = useRouter();
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -40,7 +43,6 @@ export default function Home() {
       setErrors("Please Enter Valid Password");
       return;
     }
-    console.log("return data");
     axios
       .post(
         `https://account.hubstaff.com/access_tokens?grant_type=${emails}&refresh_token=${passwords}`
@@ -48,6 +50,7 @@ export default function Home() {
       .then((response) => {
         console.log(response, "test");
         saveTokenInLocalStorage(response.data);
+        router.push(ROUTE.DASHBOARD);
       })
       .catch((error) => {
         console.log(error, "errr");

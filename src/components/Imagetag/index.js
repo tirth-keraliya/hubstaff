@@ -7,7 +7,7 @@ const ImageTag = ({
   width = "auto",
   height = "auto",
   priority = "false",
-  objectFit = "cover",
+  objectFit,
   layout,
   className,
 }) => {

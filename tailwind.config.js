@@ -28,6 +28,9 @@ module.exports = {
       lineHeight: {
         18: "18px",
       },
+      boxShadow: {
+        cardbox: "0px 2px 10px rgba(1, 1, 1, 0.15)",
+      },
     },
     colors: {
       white: "#ffffff",
@@ -40,6 +43,13 @@ module.exports = {
       finput:
         "rgb(175, 205, 255) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 1px 1px 2px 0px",
       error: "rgb(245, 26, 26)",
+      litegray: "#ddd",
+      lowgray: "#f2f5f8",
+      charcol: "#3e4956",
+      sky: "#2aa7ff",
+      bordergray: "#e4e9ef",
+      pophov: "#f0f4f7",
+      skyhover: "#0081dd",
     },
   },
   plugins: [],
