@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import ImageTag from "@/components/Imagetag";
 import Logo from "../../public/images/logo.svg";
 import Link from "next/link";
 import axios from "axios";
 import { ROUTE } from "./constants/routeConst";
+import ImageTag from "./components/Imagetag";
 
 export default function Home() {
   const [email, setEmail] = useState("");

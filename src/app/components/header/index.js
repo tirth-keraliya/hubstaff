@@ -1,3 +1,6 @@
+"use client";
+
+import React, { useEffect } from "react";
 import {
   faBell,
   faChevronRight,
@@ -11,9 +14,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
-import React from "react";
 
-const Header = () => {
+const Header = ({ users }) => {
   return (
     <div className="w-full">
       <header className="w-full bg-white  border-solid border-b border-litegray py-2.5 px-3.5">
@@ -52,7 +54,13 @@ const Header = () => {
                           <div className="w-6 h-6 mr-1 bg-sky text-white rounded-full flex items-center justify-center text-14">
                             W
                           </div>
-                          <p className="text-14 leading-5 text-black">wecode</p>
+                          {users?.users?.organizations?.map((user) => {
+                            return (
+                              <p className="text-14 leading-5 text-black">
+                                {user.name}
+                              </p>
+                            );
+                          })}
                         </Link>
                       </div>
                     </>

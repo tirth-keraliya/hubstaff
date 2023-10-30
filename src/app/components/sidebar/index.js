@@ -8,8 +8,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import LogoDash from "../../../public/images/logo.svg";
-import Logo from "../../../public/images/logoicon.svg";
+import LogoDash from "../../../../public/images/logo.svg";
+import Logo from "../../../../public/images/logoicon.svg";
 import ImageTag from "../Imagetag";
 
 const SideBar = () => {
