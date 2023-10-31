@@ -7,8 +7,6 @@ const ImageTag = ({
   width = "auto",
   height = "auto",
   priority = "false",
-  objectFit,
-  layout,
   className,
 }) => {
   return (
@@ -19,8 +17,6 @@ const ImageTag = ({
       height={height}
       alt={alt}
       priority={priority}
-      objectFit={objectFit}
-      layout={layout}
     />
   );
 };
