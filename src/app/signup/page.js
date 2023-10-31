@@ -1,6 +1,6 @@
-import ImageTag from "@/components/Imagetag";
 import Logo from "../../../public/images/logo.svg";
 import Link from "next/link";
+import ImageTag from "../components/Imagetag";
 
 const SignUp = () => {
   return (

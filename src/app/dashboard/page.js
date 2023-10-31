@@ -6,6 +6,7 @@ import SideBar from "../components/sidebar";
 import Header from "../components/header";
 import { organizationActions } from "../redux/actions/organizationActions";
 import { useDispatch, useSelector } from "react-redux";
+import Team from "./[team]/team/page";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,6 @@ const Dashboard = () => {
     dispatch(organizationActions());
   }, [dispatch]);
 
-  
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("accesstoken"));
     axios
