@@ -44,31 +44,29 @@ const Header = ({ users }) => {
                   W
                 </Menu.Button>
                 <Menu.Items className="absolute py-1 right-0 mt-2 w-52 origin-top-right rounded-md bg-white shadow-cardbox focus:outline-none">
-                  <Menu.Item>
-                    <>
-                      <div className="px-1 pb-1 border-b border-solid border-bordergray">
-                        <Link
-                          href="#"
-                          className="px-3.5 py-2 rounded hover:bg-pophov flex items-center "
-                        >
-                          <div className="w-6 h-6 mr-1 bg-sky text-white rounded-full flex items-center justify-center text-14">
-                            W
-                          </div>
-                          {users?.users?.organizations?.map((user) => {
-                            return (
-                              <p className="text-14 leading-5 text-black">
-                                {user.name}
-                              </p>
-                            );
-                          })}
-                        </Link>
-                      </div>
-                    </>
-                  </Menu.Item>
+                  {users?.users?.organizations?.map((user, index) => {
+                    return (
+                      <Menu.Item key={index}>
+                        <div className="px-1 pb-1 ">
+                          <Link
+                            href="#"
+                            className="px-3.5 py-2 rounded hover:bg-pophov flex items-center "
+                          >
+                            <div className="w-6 h-6 mr-1 bg-sky text-white rounded-full flex items-center justify-center text-14 uppercase">
+                              {user.name.charAt(0)}
+                            </div>
+                            <p className="text-14 leading-5 text-black capitalize">
+                              {user.name}
+                            </p>
+                          </Link>
+                        </div>
+                      </Menu.Item>
+                    );
+                  })}
                   <Menu.Item>
                     <Link
                       href="#"
-                      className="text-sky text-14 leading-5 flex items-center hover:text-skyhover pt-3.5 px-[18px] pb-2 "
+                      className="text-sky text-14 leading-5 flex items-center hover:text-skyhover pt-3.5 px-[18px] pb-2 border-t border-solid border-bordergray "
                     >
                       Organizations menu
                       <FontAwesomeIcon

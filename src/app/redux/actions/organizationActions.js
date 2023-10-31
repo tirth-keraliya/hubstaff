@@ -6,7 +6,6 @@ import {
 
 export const organizationActions = () => async (dispatch) => {
   const token = JSON.parse(localStorage.getItem("accesstoken"));
-
   try {
     const { data } = await axios.get(
       "https://api.hubstaff.com/v2/organizations",

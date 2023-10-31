@@ -11,14 +11,13 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const organization = useSelector((state) => state.organization);
   const users = organization;
-  const [status, setStatus] = useState();
   useEffect(() => {
     dispatch(organizationActions());
   }, [dispatch]);
 
-  const token = JSON.parse(localStorage.getItem("accesstoken"));
-
+  
   useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("accesstoken"));
     axios
       .get("https://api.hubstaff.com/v2/organizations", {
         headers: {
