@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import {
   faBell,
@@ -15,8 +16,29 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { organizationActions } from "@/app/redux/actions/organizationActions";
 
-const Header = ({ users }) => {
+const Header = () => {
+  const dispatch = useDispatch();
+  const organization = useSelector((state) => state.organization);
+  const users = organization;
+  useEffect(() => {
+    dispatch(organizationActions());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("accesstoken"));
+    axios
+      .get("https://api.hubstaff.com/v2/organizations", {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      });
+  });
   const router = useRouter();
   const handleClick = (id) => {
     router.push(`/dashboard/${id}/team`);
@@ -50,11 +72,10 @@ const Header = ({ users }) => {
                 </Menu.Button>
                 <Menu.Items className="absolute py-1 right-0 mt-2 w-52 origin-top-right rounded-md bg-white shadow-cardbox focus:outline-none">
                   {users?.users?.organizations?.map((user, index) => {
-                    console.log("tirth", user);
                     return (
                       <Menu.Item key={index}>
                         <div
-                          className="px-1 pb-1 "
+                          className="px-1 pb-1 cursor-pointer "
                           onClick={() => handleClick(user.id)}
                         >
                           <div className="px-3.5 py-2 rounded hover:bg-pophov flex items-center ">

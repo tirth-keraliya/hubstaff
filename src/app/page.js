@@ -110,7 +110,7 @@ export default function Home() {
             <div>
               <button
                 onClick={onSubmit}
-                className="text-16 leading-6 text-center font-medium capitalize  bg-blue w-full py-2 px-6 rounded transition-all duration-300 ease-in-out delay-0 hover:bg-bluehov"
+                className="text-16 leading-6 text-center text-white font-medium capitalize  bg-blue w-full py-2 px-6 rounded transition-all duration-300 ease-in-out delay-0 hover:bg-bluehov"
               >
                 Login
               </button>

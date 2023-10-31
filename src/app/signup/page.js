@@ -64,7 +64,7 @@ const SignUp = () => {
           </label>
         </div>
         <div>
-          <button className="text-16 leading-6 text-center capitalize font-medium  bg-blue w-full py-2 px-6 rounded transition-all duration-300 ease-in-out delay-0 hover:bg-bluehov">
+          <button className="text-16 leading-6 text-center text-white capitalize font-medium  bg-blue w-full py-2 px-6 rounded transition-all duration-300 ease-in-out delay-0 hover:bg-bluehov">
             Create my account
           </button>
         </div>

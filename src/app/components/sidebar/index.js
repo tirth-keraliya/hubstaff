@@ -56,7 +56,6 @@ const SideBar = () => {
             alt="logo"
             width={28}
             height={28}
-            objectFit="contain"
           />
         </div>
         <ul className="pt-6">
