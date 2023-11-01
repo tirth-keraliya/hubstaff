@@ -23,6 +23,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const organization = useSelector((state) => state.organization);
   const users = organization;
+  console.log("users", users);
   useEffect(() => {
     dispatch(organizationActions());
   }, [dispatch]);

@@ -26,3 +26,7 @@ export const organizationActions = () => async (dispatch) => {
     });
   }
 };
+
+// export const setOrganizationDetails = (data) => {
+//   dispatch({ type: SET_ORGANIZATION_LIST, payload: data });
+// };

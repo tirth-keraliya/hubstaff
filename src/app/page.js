@@ -7,8 +7,11 @@ import Link from "next/link";
 import axios from "axios";
 import { ROUTE } from "./constants/routeConst";
 import ImageTag from "./components/Imagetag";
+import { useDispatch } from "react-redux";
+import { login } from "./redux/services/authServices";
+import { APP_INIT_RESPONSE_TYPE } from "./redux/constansts/constant";
 
-export default function Home() {
+export default function Home({ ...props }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
@@ -25,7 +28,24 @@ export default function Home() {
   const saveTokenInLocalStorage = (tokenDetails) => {
     localStorage.setItem("accesstoken", JSON.stringify(tokenDetails));
   };
-  const onSubmit = (e) => {
+  const dispatch = useDispatch();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const loginObj = {
+      emails: "refresh_token",
+      password:
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImRlZmF1bHQifQ.eyJqdGkiOiJVRktZanI1aSIsImlzcyI6Imh0dHBzOi8vYWNjb3VudC5odWJzdGFmZi5jb20iLCJleHAiOjE3MDU5NDQwOTIsImlhdCI6MTY5ODE2ODA5Miwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBodWJzdGFmZjpyZWFkIGh1YnN0YWZmOndyaXRlIn0.Ri5Td9f66a7U01ZcZumak14piU15bdv-2J83OS-6t-3ceeMUh6r2qfcFaXbuQWM6nrH-qOv35EHWDqDGC0R2xjoMyKbcFUl2A8vFH7H-jtRHGEuWHuZ0VS_1gx3YPlUw232AnK_LtRBJX34kE6w0PEOX80uFqJHFaVIwaYeK_x35jLUn-7wo3ILcRcYqNDdkjADYRUteZ1Y9SRa4Ob8wETt8nvnIQhFcv6ZVREmyjPkQXRBWrpSJGbFLiAXPC_0ZBj7NKdKBaVwntabpy481cPJ_IZby742IY6UjbcN3IhwJQtHPeHch6PmwdnICi_0cWvkSpiewJzcXHLWrz4E3nQ",
+    };
+    // const result = await dispatch(login(loginObj));
+    // if (result && result.type === APP_INIT_RESPONSE_TYPE.REDIRECT) {
+    //   props.history.push(result.path);
+    // } else{
+    //   let organization = localStorage.getItem("accesstoken")
+    //   if (organization?.id){
+    //     const userDetails =
+    //   }
+    // }
     const emails = "refresh_token";
     const passwords =
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImRlZmF1bHQifQ.eyJqdGkiOiJVRktZanI1aSIsImlzcyI6Imh0dHBzOi8vYWNjb3VudC5odWJzdGFmZi5jb20iLCJleHAiOjE3MDU5NDQwOTIsImlhdCI6MTY5ODE2ODA5Miwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBodWJzdGFmZjpyZWFkIGh1YnN0YWZmOndyaXRlIn0.Ri5Td9f66a7U01ZcZumak14piU15bdv-2J83OS-6t-3ceeMUh6r2qfcFaXbuQWM6nrH-qOv35EHWDqDGC0R2xjoMyKbcFUl2A8vFH7H-jtRHGEuWHuZ0VS_1gx3YPlUw232AnK_LtRBJX34kE6w0PEOX80uFqJHFaVIwaYeK_x35jLUn-7wo3ILcRcYqNDdkjADYRUteZ1Y9SRa4Ob8wETt8nvnIQhFcv6ZVREmyjPkQXRBWrpSJGbFLiAXPC_0ZBj7NKdKBaVwntabpy481cPJ_IZby742IY6UjbcN3IhwJQtHPeHch6PmwdnICi_0cWvkSpiewJzcXHLWrz4E3nQ";
@@ -43,6 +63,7 @@ export default function Home() {
       setErrors("Please Enter Valid Password");
       return;
     }
+
     axios
       .post(
         `https://account.hubstaff.com/access_tokens?grant_type=${emails}&refresh_token=${passwords}`
