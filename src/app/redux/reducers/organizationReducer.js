@@ -3,7 +3,9 @@ import {
   SET_ORGANIZATION_FAIL,
 } from "../constansts/organizationConstansts";
 
-export const organizationReducer = (state = { user: [] }, action) => {
+const initalState = { user: [] };
+
+export const organizationReducer = (state = initalState, action) => {
   switch (action.type) {
     case SET_ORGANIZATION_LIST:
       return { loading: false, users: action.payload };
