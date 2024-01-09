@@ -3,6 +3,7 @@ import {
   setAuthLoading,
   setLoginError,
   setAuthSuccess,
+  clearAuthData,
 } from "../actions/authActions";
 
 export const login = (obj) => async (dispatch) => {
@@ -26,7 +27,7 @@ export const login = (obj) => async (dispatch) => {
     dispatch(setAuthLoading(true));
     const emails = "refresh_token";
     const passwords =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImRlZmF1bHQifQ.eyJqdGkiOiJVRktaNklvRCIsImlzcyI6Imh0dHBzOi8vYWNjb3VudC5odWJzdGFmZi5jb20iLCJleHAiOjE3MTI2MDM3OTMsImlhdCI6MTcwNDgyNzc5Mywic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBodWJzdGFmZjpyZWFkIGh1YnN0YWZmOndyaXRlIn0.vRDtvDYQBdfyMUT_cWoOw13R0aihBec8D_NGxOGGewsbI8SYmJ2ea2l1O-fjH1vrw1knjmDUjUp0FodqNGz2MIdll-YFBSkeUoo9hzhTTk9XXDQyP6GjHprqve-ZGCf4CRTL_yKuNDavHPGoIivgMFcDyqq4f4zx83I0eLZu7pQgu4rHn4ia7R9a3HNkOo9JkyuHIOVZBW64vZmqF6k56odeVm4swLOJRvtRhCBUbbNilVwOk9Yr1NN9snYmmQ1V80OZuE4u971kpEfSje8kiRaoxXFg8O4tjaj5aksFckO6-0oQg8GdpxZ9lRbkHMTR2RPWxjrn9pMmZNJF-Gf0rQ";
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImRlZmF1bHQifQ.eyJqdGkiOiJVRktaNS9CNiIsImlzcyI6Imh0dHBzOi8vYWNjb3VudC5odWJzdGFmZi5jb20iLCJleHAiOjE3MTI1OTg3NDUsImlhdCI6MTcwNDgyMjc0NSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBodWJzdGFmZjpyZWFkIGh1YnN0YWZmOndyaXRlIn0.l1vbmCwPlkfAwX5QUHDjLd8fWPpK5JUutt84uiBdyhFTM59q26JMA68uExJh6BcIq7sucbSfmLFr-TffEL-W8EYpG5xxzvdzQn-M33i_t8UvMfdfSHvcXcWzmb7OZj8cC_ZtfskWfBXXy-hwA1z7pO2hxtH3acTt5nvIH1rR-DRag6n6eMF8YqOsyhMtYRFF7voYr2b84zRfGPoAAq9JkYfEdkiGmBnnYMDtUtv4mUXaFJDoEQtD5CWsthQSLt59hf2y_Y8lq979F5zNUAiT7FCGexEDtGLLV8Vqe8MFrpwstg3A6ub89rCjHXZHQJruqfm5PgKLZb6GWbp0qMuafg";
     const response = await axios.post(
       `https://account.hubstaff.com/access_tokens?grant_type=${emails}&refresh_token=${passwords}`,
       {
@@ -35,6 +36,7 @@ export const login = (obj) => async (dispatch) => {
     );
     if (response.data.access_token) {
       dispatch(setAuthSuccess(response.data));
+      // dispatch(getOrganization(response.data));
       return response.data;
     } else {
       dispatch(setLoginError(response.message));
@@ -43,4 +45,7 @@ export const login = (obj) => async (dispatch) => {
   } catch (error) {
     console.log(error, "dsadas");
   }
+};
+export const logout = () => (dispatch) => {
+  dispatch(clearAuthData());
 };

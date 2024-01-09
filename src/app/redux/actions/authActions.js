@@ -9,4 +9,6 @@ export const setLoginError = (err) => (dispatch) =>
 export const setAuthLoading = (loading) => (dispatch) =>
   dispatch({ type: Actions.SET_AUTH_LOADING, payload: loading });
 
-export const clearAuthData = () => (dispatch) => {};
+export const clearAuthData = () => (dispatch) => {
+  dispatch({ type: Actions.SET_AUTH_CLEAR });
+};

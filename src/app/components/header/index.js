@@ -18,11 +18,18 @@ import { Menu } from "@headlessui/react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { organizationActions } from "@/app/redux/actions/organizationActions";
+import { ROUTE } from "@/app/redux/constansts/routeConst";
+import { logout } from "@/app/redux/services/authServices";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const organization = useSelector((state) => state.organization);
   const users = organization;
+  const onClickLogout = () => {
+    dispatch(logout());
+    router.push(ROUTE.LOGIN);
+  };
   console.log("users", users);
   useEffect(() => {
     dispatch(organizationActions());
@@ -40,7 +47,6 @@ const Header = () => {
         console.log(response);
       });
   });
-  const router = useRouter();
   const handleClick = (id) => {
     router.push(`/dashboard/${id}/team`);
   };
@@ -102,6 +108,14 @@ const Header = () => {
                         className="text-12 leading-4 ml-2"
                       />
                     </Link>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <span
+                      onClick={onClickLogout}
+                      className="text-sky text-14 leading-5 flex items-center hover:text-skyhover pt-3.5 px-[18px] pb-2 border-t border-solid border-bordergray "
+                    >
+                      Log Out
+                    </span>
                   </Menu.Item>
                 </Menu.Items>
               </Menu>

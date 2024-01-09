@@ -1,4 +1,5 @@
 import {
+  SET_AUTH_CLEAR,
   SET_AUTH_ERROR,
   SET_AUTH_LOADING,
   SET_AUTH_SUCCESS,
@@ -19,6 +20,8 @@ export const authReducer = (state = initalState, action) => {
         errorMessage: action.payload,
         tokens: {},
       };
+    case SET_AUTH_CLEAR:
+      return { loading: false, errorMessage: "", tokens: {} };
     default:
       return state;
   }
