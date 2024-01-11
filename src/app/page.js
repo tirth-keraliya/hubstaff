@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ROUTE } from "./redux/constansts/routeConst";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import { login } from "./redux/services/authServices";
 import Link from "next/link";
 import Logo from "../../public/images/logo.svg";
 import ImageTag from "./components/Imagetag";
+import { setAuthToken } from "./redux/actions/authActions";
 
 export default function Home() {
   const auth = useSelector((state) => state.auth);
@@ -20,6 +21,7 @@ export default function Home() {
   const [email, setEmail] = useState("admin@gmail.com");
   const [password, setPassword] = useState("admin");
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -36,7 +38,6 @@ export default function Home() {
       </p>
     );
   };
-  const dispatch = useDispatch();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -44,6 +45,7 @@ export default function Home() {
       email: email,
       password: password,
     };
+
     const result = await dispatch(login(loginObj));
     if (result && result.access_token) {
       router.push(ROUTE.DASHBOARD);

@@ -1,9 +1,10 @@
 import {
-  SET_ORGANIZATION_LIST,
   SET_ORGANIZATION_FAIL,
-} from "../constansts/organizationConstansts";
+  SET_ORGANIZATION_LIST,
+  UPDATE_SELECTED_ORGANIZATION,
+} from "../actions/types";
 
-const initalState = { user: [] };
+const initalState = { user: [], loading: false, selectedOrganization: {} };
 
 export const organizationReducer = (state = initalState, action) => {
   switch (action.type) {

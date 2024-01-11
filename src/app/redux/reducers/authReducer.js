@@ -3,6 +3,7 @@ import {
   SET_AUTH_ERROR,
   SET_AUTH_LOADING,
   SET_AUTH_SUCCESS,
+  SET_AUTH_TOKEN,
 } from "../actions/types";
 
 const initalState = { loading: false, errorMessage: "", tokens: {} };
@@ -21,6 +22,7 @@ export const authReducer = (state = initalState, action) => {
         tokens: {},
       };
     case SET_AUTH_CLEAR:
+      localStorage.clear();
       return { loading: false, errorMessage: "", tokens: {} };
     default:
       return state;

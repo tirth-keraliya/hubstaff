@@ -1,7 +1,8 @@
 import * as Actions from "./types";
 
-export const setAuthSuccess = (response) => (dispatch) =>
+export const setAuthSuccess = (response) => (dispatch) => {
   dispatch({ type: Actions.SET_AUTH_SUCCESS, payload: response });
+};
 
 export const setLoginError = (err) => (dispatch) =>
   dispatch({ type: Actions.SET_AUTH_ERROR, payload: err });

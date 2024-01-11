@@ -1,32 +1,18 @@
-import axios from "axios";
-import {
-  SET_ORGANIZATION_LIST,
-  SET_ORGANIZATION_FAIL,
-} from "../constansts/organizationConstansts.js";
+import { SET_ORGANIZATION_FAIL, SET_ORGANIZATION_LIST } from "./types";
 
-export const organizationActions = () => async (dispatch) => {
-  const token = JSON.parse(localStorage.getItem("accesstoken"));
-  try {
-    const { data } = await axios.get(
-      "https://api.hubstaff.com/v2/organizations",
-      {
-        headers: {
-          Authorization: `Bearer ${token.access_token}`,
-        },
-      }
-    );
-    dispatch({ type: SET_ORGANIZATION_LIST, payload: data });
-  } catch (error) {
-    dispatch({
-      type: SET_ORGANIZATION_FAIL,
-      payload:
-        error.data && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
+export const setOrganizationList = (data) => (dispatch) => {
+  dispatch({ type: SET_ORGANIZATION_LIST, payload: data });
+};
+export const setOrganizationFail = (data) => (dispatch) => {
+  dispatch({ type: SET_ORGANIZATION_FAIL, payload: data });
 };
 
-// export const setOrganizationDetails = (data) => {
-//   dispatch({ type: SET_ORGANIZATION_LIST, payload: data });
+// export const setLoginError = (err) => (dispatch) =>
+//   dispatch({ type: Actions.SET_AUTH_ERROR, payload: err });
+
+// export const setAuthLoading = (loading) => (dispatch) =>
+//   dispatch({ type: Actions.SET_AUTH_LOADING, payload: loading });
+
+// export const clearAuthData = () => (dispatch) => {
+//   dispatch({ type: Actions.SET_AUTH_CLEAR });
 // };

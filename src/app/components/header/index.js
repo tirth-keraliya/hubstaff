@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   faBell,
@@ -17,39 +16,40 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { organizationActions } from "@/app/redux/actions/organizationActions";
 import { ROUTE } from "@/app/redux/constansts/routeConst";
 import { logout } from "@/app/redux/services/authServices";
+import { organizationServices } from "@/app/redux/services/organizationServices";
+import {
+  setAccessToken,
+  setAuthSuccess,
+} from "@/app/redux/actions/authActions";
 
 const Header = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const authTokens = useSelector((state) => state.auth.tokens);
+  const [selectedUser, setSelectedUser] = useState(null);
+  useEffect(() => {
+    const storedAccessToken = JSON.parse(localStorage.getItem("auth_data"));
+    console.log(storedAccessToken, "authTokens");
+    if (storedAccessToken) {
+      dispatch(organizationServices(storedAccessToken.access_token));
+      dispatch(setAuthSuccess(storedAccessToken));
+    }
+  }, [dispatch]);
   const organization = useSelector((state) => state.organization);
   const users = organization;
+  console.log("org", organization);
   const onClickLogout = () => {
     dispatch(logout());
     router.push(ROUTE.LOGIN);
   };
-  console.log("users", users);
-  useEffect(() => {
-    dispatch(organizationActions());
-  }, [dispatch]);
 
-  useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("accesstoken"));
-    axios
-      .get("https://api.hubstaff.com/v2/organizations", {
-        headers: {
-          Authorization: `Bearer ${token.access_token}`,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-      });
-  });
-  const handleClick = (id) => {
+  const handleClick = (id, name) => {
+    setSelectedUser({ id, name });
     router.push(`/dashboard/${id}/team`);
   };
+
   return (
     <div className="w-full">
       <header className="w-full bg-white  border-solid border-b border-litegray py-2.5 px-3.5">
@@ -74,8 +74,8 @@ const Header = () => {
             </div>
             <div>
               <Menu as="div" className="relative inline-block text-left z-50">
-                <Menu.Button className="w-6 h-6 bg-blue text-12 font-medium text-white rounded-full">
-                  W
+                <Menu.Button className="w-6 h-6 bg-blue text-12 font-medium text-white capitalize rounded-full">
+                  {selectedUser ? selectedUser.name.charAt(0) : "W"}
                 </Menu.Button>
                 <Menu.Items className="absolute py-1 right-0 mt-2 w-52 origin-top-right rounded-md bg-white shadow-cardbox focus:outline-none">
                   {users?.users?.organizations?.map((user, index) => {
@@ -83,7 +83,7 @@ const Header = () => {
                       <Menu.Item key={index}>
                         <div
                           className="px-1 pb-1 cursor-pointer "
-                          onClick={() => handleClick(user.id)}
+                          onClick={() => handleClick(user.id, user.name)}
                         >
                           <div className="px-3.5 py-2 rounded hover:bg-pophov flex items-center ">
                             <div className="w-6 h-6 mr-1 bg-sky text-white rounded-full flex items-center justify-center text-14 uppercase">

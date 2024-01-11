@@ -1,22 +1,26 @@
-// import axios from "axios";
-// import { setOrganizationDetails } from "../actions/organizationActions";
+import axios from "axios";
+import {
+  setOrganizationFail,
+  setOrganizationList,
+} from "../actions/organizationActions";
 
-// export const getOrganization = (token) =>async (dispatch) =>{
-//     const token = JSON.parse(localStorage.getItem("accesstoken"));
+export const organizationServices = (access_token) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(
+      "https://api.hubstaff.com/v2/organizations",
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    console.log("ktk", data);
+    dispatch(setOrganizationList(data));
+  } catch (error) {
+    dispatch(setOrganizationFail(error.message));
+  }
+};
 
-// try {
-//     const { data } = await axios.get(
-//         "https://api.hubstaff.com/v2/organizationss",
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token.access_token}`,
-//           },
-//         }
-//       );
-//       setOrganizationDetails(data)
-// } catch (error) {
-//     dispatch
-
-// }
-
-//     }
+// export const setOrganizationDetails = (data) => {
+//   dispatch({ type: SET_ORGANIZATION_LIST, payload: data });
+// };

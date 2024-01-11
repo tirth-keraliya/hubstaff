@@ -4,6 +4,7 @@ import {
   setLoginError,
   setAuthSuccess,
   clearAuthData,
+  setAuthToken,
 } from "../actions/authActions";
 
 export const login = (obj) => async (dispatch) => {
@@ -27,7 +28,7 @@ export const login = (obj) => async (dispatch) => {
     dispatch(setAuthLoading(true));
     const emails = "refresh_token";
     const passwords =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImRlZmF1bHQifQ.eyJqdGkiOiJVRktaNS9CNiIsImlzcyI6Imh0dHBzOi8vYWNjb3VudC5odWJzdGFmZi5jb20iLCJleHAiOjE3MTI1OTg3NDUsImlhdCI6MTcwNDgyMjc0NSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBodWJzdGFmZjpyZWFkIGh1YnN0YWZmOndyaXRlIn0.l1vbmCwPlkfAwX5QUHDjLd8fWPpK5JUutt84uiBdyhFTM59q26JMA68uExJh6BcIq7sucbSfmLFr-TffEL-W8EYpG5xxzvdzQn-M33i_t8UvMfdfSHvcXcWzmb7OZj8cC_ZtfskWfBXXy-hwA1z7pO2hxtH3acTt5nvIH1rR-DRag6n6eMF8YqOsyhMtYRFF7voYr2b84zRfGPoAAq9JkYfEdkiGmBnnYMDtUtv4mUXaFJDoEQtD5CWsthQSLt59hf2y_Y8lq979F5zNUAiT7FCGexEDtGLLV8Vqe8MFrpwstg3A6ub89rCjHXZHQJruqfm5PgKLZb6GWbp0qMuafg";
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImRlZmF1bHQifQ.eyJqdGkiOiJVRktaN2NjaSIsImlzcyI6Imh0dHBzOi8vYWNjb3VudC5odWJzdGFmZi5jb20iLCJleHAiOjE3MTI3NDQ2NDEsImlhdCI6MTcwNDk2ODY0MSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBodWJzdGFmZjpyZWFkIGh1YnN0YWZmOndyaXRlIn0.Bj3RVn6zHTPAwO9KCVaQGdXCNyFF3NhbfSsAQR3nsk5e225gaRxsL-nZbDdj-oEVPVnCIPtrTwt0MUqWvRSJ8gn1nTkyY7r6PqcUFadFCz30IBIZLon8o576HgtEtcu_2QLLw91aqL2bGEQ-3kfNoCVhy_66biAlH99InoLXDGdnl2hHgmvLjklksojWvZoc2Nv0ff3_lVRawAW5UpGlEJ6mFgpVHnzDVjJOPFiT1gVjWoQhpCjm1RvUshkNUDL120AnlDE-eF3XDYKw6iNiPtutLwkGzs_w0YMBqrmJGPOrrODItWdylmaYWQEFLU6fN8ad7nLcGpSluRG__38uwg";
     const response = await axios.post(
       `https://account.hubstaff.com/access_tokens?grant_type=${emails}&refresh_token=${passwords}`,
       {
@@ -36,7 +37,10 @@ export const login = (obj) => async (dispatch) => {
     );
     if (response.data.access_token) {
       dispatch(setAuthSuccess(response.data));
+      console.log("sdadas", response.data);
       // dispatch(getOrganization(response.data));
+      localStorage.setItem("auth_data", JSON.stringify(response.data));
+      // localStorage.setItem("access_token", JSON.stringify(response.data));
       return response.data;
     } else {
       dispatch(setLoginError(response.message));
