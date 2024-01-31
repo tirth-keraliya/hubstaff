@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   faBell,
   faChevronRight,
@@ -18,17 +18,27 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { ROUTE } from "@/app/redux/constansts/routeConst";
 import { logout } from "@/app/redux/services/authServices";
-import { organizationServices } from "@/app/redux/services/organizationServices";
+import {
+  organizationListServices,
+  organizationServices,
+} from "@/app/redux/services/organizationServices";
 import {
   setAccessToken,
   setAuthSuccess,
 } from "@/app/redux/actions/authActions";
+import {
+  setOrganizationDetails,
+  setOrganizationList,
+} from "@/app/redux/actions/organizationActions";
 
 const Header = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const { team } = useParams();
   const authTokens = useSelector((state) => state.auth.tokens);
   const [selectedUser, setSelectedUser] = useState(null);
+
   useEffect(() => {
     const storedAccessToken = JSON.parse(localStorage.getItem("auth_data"));
     console.log(storedAccessToken, "authTokens");
@@ -36,7 +46,24 @@ const Header = () => {
       dispatch(organizationServices(storedAccessToken.access_token));
       dispatch(setAuthSuccess(storedAccessToken));
     }
+    const storedOrganization = JSON.parse(
+      localStorage.getItem("organization_data")
+    );
+
+    if (storedOrganization) {
+      dispatch(setOrganizationList(storedOrganization.users));
+      dispatch(
+        setOrganizationDetails(storedOrganization.selectedOrganization.members)
+      );
+    }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (team && authTokens.access_token) {
+      dispatch(organizationListServices(team, authTokens.access_token));
+    }
+  }, [team, authTokens.access_token]);
+
   const organization = useSelector((state) => state.organization);
   const users = organization;
   console.log("org", organization);
@@ -45,9 +72,14 @@ const Header = () => {
     router.push(ROUTE.LOGIN);
   };
 
-  const handleClick = (id, name) => {
+  const handleClick = async (id, name) => {
     setSelectedUser({ id, name });
-    router.push(`/dashboard/${id}/team`);
+    try {
+      await dispatch(organizationListServices(id, authTokens.access_token));
+      router.push(`/dashboard/${id}/team`);
+    } catch (error) {
+      console.error("Error fetching organization details:", error);
+    }
   };
 
   return (
